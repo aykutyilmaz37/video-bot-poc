@@ -3,12 +3,8 @@
 Canlı AI video görüşme botu için MVP uygulaması. Kullanıcılar bir web arayüzü üzerinden AI avatar ile görüşme yapabilir.
 
 ## 🚀 Özellikler
-
-- **LiveKit Entegrasyonu**: Gerçek zamanlı video/audio iletişimi (VideoConference component)
 - **ElevenLabs Conversational AI**: Gerçek AI sohbet botu - dinamik konuşma (Mock mode desteği var)
-- **AI Avatar**: Mock avatar desteği
 - **Interview Flow**: State machine ile yapılandırılmış görüşme akışı
-- **Modüler Mimari**: Avatar ve voice provider'lar kolayca değiştirilebilir
 
 ## 📋 Gereksinimler
 

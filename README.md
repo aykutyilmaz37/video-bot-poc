@@ -28,12 +28,6 @@ npm install
 `.env.local` dosyası oluşturun ve aşağıdaki değişkenleri ekleyin:
 
 ```env
-# LiveKit Configuration (Zorunlu)
-LIVEKIT_URL=wss://your-livekit-server.com
-LIVEKIT_API_KEY=your_api_key
-LIVEKIT_API_SECRET=your_api_secret
-
-# ElevenLabs Configuration (Opsiyonel - Mock kullanılabilir)
 ELEVENLABS_API_KEY=your_elevenlabs_api_key
 NEXT_PUBLIC_ELEVENLABS_AGENT_ID=your_agent_id
 

@@ -66,6 +66,10 @@ export function useMockElevenLabs({
   
   const frontendInterviewQuestions = [
     'Merhaba! Öncelikle kendinizi kısaca tanıtır mısınız? Frontend geliştirme alanında ne kadar deneyiminiz var?',
+    'En son yaptığınız projeler nelerdir? Projelerinizde hangi teknolojileri kullandınız?',
+    'Projenizin en büyük challengeı nedir? Bu challengeı nasıl çözdünüz?',
+    'Projenizin en büyük başarısı nedir? Bu başarıyı nasıl elde ettiniz?',
+    'Projenizin en büyük başarısı nedir? Bu başarıyı nasıl elde ettiniz?',
   ];
   
   const closingMessage = 'Harika! Tüm sorularınızı cevapladığınız için teşekkür ederim. Görüşme sona ermiştir. İyi günler!';

@@ -79,7 +79,20 @@ export function DeviceTestView({ onTestsComplete }: DeviceTestViewProps) {
         setTesting(null);
       }, 3000);
     } catch (err) {
-      const errorMsg = err instanceof Error ? err.message : 'Mikrofon erişimi reddedildi';
+      let errorMsg = 'Mikrofon erişimi reddedildi';
+
+      if (err instanceof Error) {
+        if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+          errorMsg = '🎤 Mikrofon izni reddedildi. Lütfen tarayıcınızın adres çubuğundaki mikrofon simgesine tıklayarak izin verin.';
+        } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
+          errorMsg = '🎤 Mikrofon bulunamadı. Lütfen mikrofonunuzun bağlı olduğundan emin olun.';
+        } else if (err.name === 'NotReadableError' || err.name === 'TrackStartError') {
+          errorMsg = '🎤 Mikrofon başka bir uygulama tarafından kullanılıyor olabilir. Lütfen diğer uygulamaları kapatıp tekrar deneyin.';
+        } else if (err.name === 'OverconstrainedError') {
+          errorMsg = '🎤 Mikrofon ayarları uyumsuz. Lütfen farklı bir mikrofon kullanmayı deneyin.';
+        }
+      }
+
       setError(errorMsg);
       setTesting(null);
     }
@@ -105,7 +118,24 @@ export function DeviceTestView({ onTestsComplete }: DeviceTestViewProps) {
         setTesting(null);
       }, 2000);
     } catch (err) {
-      const errorMsg = err instanceof Error ? err.message : 'Kamera erişimi reddedildi';
+      let errorMsg = 'Kamera erişimi reddedildi';
+
+      if (err instanceof Error) {
+        if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+          errorMsg = '📹 Kamera izni reddedildi. Lütfen tarayıcınızın adres çubuğundaki kamera simgesine tıklayarak izin verin.';
+        } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
+          errorMsg = '📹 Kamera bulunamadı. Lütfen kameranızın bağlı ve açık olduğundan emin olun. Harici bir kamera kullanıyorsanız USB bağlantısını kontrol edin.';
+        } else if (err.name === 'NotReadableError' || err.name === 'TrackStartError') {
+          errorMsg = '📹 Kamera başka bir uygulama tarafından kullanılıyor olabilir. Lütfen Zoom, Teams gibi uygulamaları kapatıp tekrar deneyin.';
+        } else if (err.name === 'OverconstrainedError') {
+          errorMsg = '📹 Kamera ayarları uyumsuz. Lütfen farklı bir kamera kullanmayı deneyin veya kamera ayarlarınızı kontrol edin.';
+        } else if (err.name === 'AbortError') {
+          errorMsg = '📹 Kamera başlatma iptal edildi. Lütfen tekrar deneyin.';
+        } else if (err.name === 'SecurityError') {
+          errorMsg = '📹 Güvenlik hatası. Lütfen sayfa HTTPS üzerinden erişildiğinden emin olun.';
+        }
+      }
+
       setError(errorMsg);
       setTesting(null);
     }
@@ -134,8 +164,32 @@ export function DeviceTestView({ onTestsComplete }: DeviceTestViewProps) {
         </p>
 
         {error && (
-          <div className="mb-6 rounded-lg bg-red-500/10 border border-red-500/20 p-4">
-            <p className="text-red-400">{error}</p>
+          <div className="mb-6 rounded-lg bg-red-500/10 border border-red-500/30 p-5 shadow-lg">
+            <div className="flex items-start gap-3">
+              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center mt-0.5">
+                <svg className="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <h4 className="text-red-300 font-semibold mb-1">Cihaz Hatası</h4>
+                <p className="text-red-200 text-sm leading-relaxed">{error}</p>
+                <button
+                  onClick={() => {
+                    setError(null);
+                    // Hangi test hata verdiyse onu tekrar dene
+                    if (error.includes('📹')) {
+                      testCamera();
+                    } else if (error.includes('🎤')) {
+                      testMicrophone();
+                    }
+                  }}
+                  className="mt-3 px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-200 rounded-md text-sm font-medium transition-colors"
+                >
+                  Tekrar Dene
+                </button>
+              </div>
+            </div>
           </div>
         )}
 
